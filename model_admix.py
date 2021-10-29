@@ -250,7 +250,7 @@ def model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	with open("snps.vcf", "r") as file: 
 		filedata = file.read()
 		
-	filedata = filedata.replace("msp_0", "msp_00")
+	filedata = filedata.replace("tsk_0", "tsk_00")
 	
 	with open ("snps.vcf", "w") as file: 
 		file.write(filedata)
@@ -447,7 +447,7 @@ def model_admix_expansion(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, ch
 	with open("snps.vcf", "r") as file: 
 		filedata = file.read()
 		
-	filedata = filedata.replace("msp_0", "msp_00")
+	filedata = filedata.replace("tsk_0", "tsk_00")
 	
 	with open ("snps.vcf", "w") as file: 
 		file.write(filedata)
@@ -652,7 +652,7 @@ def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	with open("snps.vcf", "r") as file: 
 		filedata = file.read()
 		
-	filedata = filedata.replace("msp_0", "msp_00")
+	filedata = filedata.replace("tsk_0", "tsk_00")
 	
 	with open ("snps.vcf", "w") as file: 
 		file.write(filedata)
