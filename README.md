@@ -32,8 +32,8 @@ change the pandas dataframes to whatever species' info you need.
 Be sure to also check things like initial pop size and the timing of the population collapse parameter to make sure it works for your desired model.
 
 Dependencies: \
-pandas
-pandas_plink
+pandas \
+pandas_plink \
 msprime
 
 *remember to download the dependencies folder -- msprime 0.x wasn't the greatest for VCFs that were compatible with downstream programs, so these scripts will help clean those up and run ADMIXTURE and do a quick PCA on your simulation*
