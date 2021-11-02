@@ -692,7 +692,7 @@ def fam_fix():
 #Add SNP IDs to the VCF
 def bim_fix():
 	bim_fix = subprocess.Popen(
-			"../Dependencies/bim_fix.py ../Admixture/model_" + str(chrom) + " ../Admixture/model_" + str(chrom) + "_fixed.bim",
+			"../Dependencies/bim_fix.py ../Admixture/model_" + str(chrom) + " ../Admixture/model_" + str(chrom) + "_fixed.bim " + str(chrom),
 			shell=True
 			)
 	bim_fix.communicate()
