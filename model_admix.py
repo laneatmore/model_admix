@@ -90,6 +90,7 @@ def model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	T_Pop1 = 10000000/generation_time  #pygmies
 	T_Pop2 = 5000000/generation_time  #bantu
 	T_Admix = time_admix/generation_time
+	r_Pop3 = (pop3/100)**(1/T_Admix) - 1
 	r_Pop2_1 = (pop2/1000)**(1/T_Admix) - 1
 	r_Pop2_2 = (0.5*pop2 / 20)**(1 / (T_Pop2 - T_Admix)) - 1
 	r_Pop1 = (pop3/100)**(1/T_Pop1)-1
