@@ -9,6 +9,7 @@ import sys
 
 infile = sys.argv[1]
 outfile = sys.argv[2]
+chrom = sys.argv[3]
 
 (bim, fam, bed) = read_plink(
 	infile, 
@@ -17,6 +18,7 @@ outfile = sys.argv[2]
 
 bim['snp'] = range(1, 1+len(bim))
 #bim['pos'] = 0
+bim['chrom'] = chrom
 
 bim.drop(
 	"i", 
