@@ -242,17 +242,17 @@ def model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	print("SIMULATION COMPLETE", flush = True)
 
 	#Make VCF of simulated data
-	with open("snps.vcf", "w") as vcf_file: 
+	with open("snps_" + str(chrom) + ".vcf", "w") as vcf_file: 
 		sim.write_vcf(vcf_file, 2)
 
 	#msprime makes files that aren't quite compatible with what we need to do
 	#Therefore we'll need to clean these files up before proceeding
-	with open("snps.vcf", "r") as file: 
+	with open("snps_" + str(chrom) + ".vcf", "r") as file: 
 		filedata = file.read()
 		
 	filedata = filedata.replace("tsk_0", "tsk_00")
 	
-	with open ("snps.vcf", "w") as file: 
+	with open ("snps_" + str(chrom) + ".vcf", "w") as file: 
 		file.write(filedata)
 	
 	print("VCF FIXED", flush = True)
@@ -262,16 +262,16 @@ def model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	str(sample_pop2) + ' ' + str(sample_pop3))
 		
 	make_files = subprocess.Popen(
-		"plink --vcf snps.vcf --make-bed --out model", 
+		"plink --vcf snps_" + str(chrom) + ".vcf --make-bed --out model_" + str(chrom), 
 		shell=True
 		)
-	
+
 	#Create population information for the simulated data
 	print("POP INFO CREATED", flush = True)
 	
 	make_files.communicate()
 	print("FILES CREATED", flush = True)
-	
+
 
 def model_admix_expansion(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chrom, sample_pop1, sample_pop2, sample_pop3):
 
@@ -439,17 +439,17 @@ def model_admix_expansion(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, ch
 	print("SIMULATION COMPLETE", flush = True)
 
 	#Make VCF of simulated data
-	with open("snps.vcf", "w") as vcf_file: 
+	with open("snps_" + str(chrom) + ".vcf", "w") as vcf_file: 
 		sim.write_vcf(vcf_file, 2)
 
 	#msprime makes files that aren't quite compatible with what we need to do
 	#Therefore we'll need to clean these files up before proceeding
-	with open("snps.vcf", "r") as file: 
+	with open("snps_" + str(chrom) + ".vcf", "r") as file: 
 		filedata = file.read()
 		
 	filedata = filedata.replace("tsk_0", "tsk_00")
 	
-	with open ("snps.vcf", "w") as file: 
+	with open ("snps_" + str(chrom) + ".vcf", "w") as file: 
 		file.write(filedata)
 	
 	print("VCF FIXED", flush = True)
@@ -459,15 +459,16 @@ def model_admix_expansion(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, ch
 	str(sample_pop2) + ' ' + str(sample_pop3))
 		
 	make_files = subprocess.Popen(
-		"plink --vcf snps.vcf --make-bed --out model", 
+		"plink --vcf snps_" + str(chrom) + ".vcf --make-bed --out model_" + str(chrom), 
 		shell=True
 		)
-	
+
 	#Create population information for the simulated data
 	print("POP INFO CREATED", flush = True)
 	
 	make_files.communicate()
 	print("FILES CREATED", flush = True)
+
 
 
 def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chrom, sample_pop1, sample_pop2, sample_pop3):
@@ -644,17 +645,17 @@ def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	print("SIMULATION COMPLETE", flush = True)
 
 	#Make VCF of simulated data
-	with open("snps.vcf", "w") as vcf_file: 
+	with open("snps_" + str(chrom) + ".vcf", "w") as vcf_file: 
 		sim.write_vcf(vcf_file, 2)
 
 	#msprime makes files that aren't quite compatible with what we need to do
 	#Therefore we'll need to clean these files up before proceeding
-	with open("snps.vcf", "r") as file: 
+	with open("snps_" + str(chrom) + ".vcf", "r") as file: 
 		filedata = file.read()
 		
 	filedata = filedata.replace("tsk_0", "tsk_00")
 	
-	with open ("snps.vcf", "w") as file: 
+	with open ("snps_" + str(chrom) + ".vcf", "w") as file: 
 		file.write(filedata)
 	
 	print("VCF FIXED", flush = True)
@@ -664,7 +665,7 @@ def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	str(sample_pop2) + ' ' + str(sample_pop3))
 		
 	make_files = subprocess.Popen(
-		"plink --vcf snps.vcf --make-bed --out model", 
+		"plink --vcf snps_" + str(chrom) + ".vcf --make-bed --double-id --out model_" + str(chrom), 
 		shell=True
 		)
 
@@ -677,59 +678,60 @@ def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 #We'll need to do a bit more file prep before we're ready to get moving on analysis
 def fam_fix():
 	fam_fix = subprocess.Popen(
-		"../Dependencies/fam_fix.pl ../Admixture/model.fam ../Admixture/model_fixed.fam", 
+		"../Dependencies/fam_fix.pl ../Admixture/model_" + str(chrom) + ".fam ../Admixture/model_" + str(chrom) + "_fixed.fam", 
 		shell=True
 		)	
 	fam_fix.communicate()
 	print("FAM FIXED", flush = True) 
 
-	os.rename("model_fixed.fam", "model.fam")
+	os.rename("model_" + str(chrom) + "_fixed.fam", "model_" + str(chrom) + ".fam")
 	print("FAM REPLACED", flush = True)
 
 
 #Add SNP IDs to the VCF
 def bim_fix():
 	bim_fix = subprocess.Popen(
-			"../Dependencies/bim_fix.py ../Admixture/model.fam ../Admixture/model_fixed.fam",
+			"../Dependencies/bim_fix.py ../Admixture/model_" + str(chrom) + " ../Admixture/model_" + str(chrom) + "_fixed.bim",
 			shell=True
 			)
-	bim_fix.communicate()	
+	bim_fix.communicate()
+	os.system('mv ../Admixture/model_' + str(chrom) + '_fixed.bim ../Admixture/model_' + str(chrom) + '.bim')
 	print("BIM FIXED", flush = True)
 
 def new_vcf():
 	new_vcf = subprocess.Popen(
-		"plink --bfile model --recode-vcf --out snps", 
+		"plink --bfile model_" + str(chrom) + " --recode vcf-iid --double-id --out snps_" + str(chrom), 
 		shell = True
 		)
 	new_vcf.communicate()
 	print("NEW VCF CREATED", flush = True) 
 
-def snp_id():
-	snp_id = subprocess.Popen(
-		"../Dependencies/snp_id.py",
-		shell=True
-		)
+#def snp_id():
+#	snp_id = subprocess.Popen(
+#		"../Dependencies/snp_id.py",
+#		shell=True
+#		)
 
 #Finally ready for plink	
 #Perform pca and plot
 def pca_test():
 	pca = subprocess.Popen(
-		"plink --bfile model --pca --out model_pca", 
+		"plink --bfile model_" + str(chrom) + " --pca --out model_" + str(chrom) + "_pca", 
 		shell=True
 		)
 	pca.communicate()
 	
-	plot = subprocess.Popen(
-		"Rscript ../Dependencies/pca_plot.R", 
-		shell=True
-		)
-	plot.communicate()
+	#plot = subprocess.Popen(
+	#	"Rscript ../Dependencies/pca_plot.R", 
+	#	shell=True
+	#	)
+	#plot.communicate()
 	print("PCA FINISHED", flush = True)
 
 #Prune the dataset
 def prune():	
 	prune = subprocess.Popen(
-		"plink --bfile model --indep-pairwise 50 2 0.8",
+		"plink --bfile model_" + str(chrom) + " --indep-pairwise 50 2 0.8 --double-id --out " + str(chrom),
 		shell=True
 		)
 	prune.communicate()
@@ -737,20 +739,20 @@ def prune():
 #New dataset for pruned beds
 def make_beds():
 	new_bed = subprocess.Popen(
-		"plink --bfile model --extract plink.prune.in --make-bed --out pruned_model", 
+		"plink --bfile model_" + str(chrom) + " --extract " + str(chrom) + ".prune.in --make-bed --double-id --out pruned_model_" + str(chrom), 
 		shell=True
 		)
 	new_bed.communicate()
 	
 	new_bedout = subprocess.Popen(
-		"plink --bfile model --extract plink.prune.out --make-bed --out outpruned_model", 
+		"plink --bfile model_" + str(chrom) + " --extract " + str(chrom) + ".prune.out --make-bed --double-id --out outpruned_model_" + str(chrom), 
 		shell=True
 		)
 	new_bedout.communicate()
 
 def prune_mp():
 	m_p = subprocess.Popen(
-		"plink --bfile pruned_model --recode --out pruned_model", 
+		"plink --bfile pruned_model_" + str(chrom) + " --recode --double-id --out pruned_model_" + str(chrom), 
 		shell=True
 		)
 	m_p.communicate()
@@ -759,35 +761,35 @@ def prune_mp():
 def admixture_test():
 	admix = subprocess.Popen(
 		"for K in 1 2 3; \
-		do admixture --cv pruned_model.bed $K | tee log$K.out; done", 
+		do admixture --cv pruned_model_" + str(chrom) + ".bed $K | tee log${K}_" + str(chrom) + ".out; done", 
 		shell=True
 		)
 	admix.communicate()
 	
 	cv_grab = subprocess.Popen(
-		"grep -h CV log*.out >cv_error.txt",
+		"grep -h CV log*_" + str(chrom) + ".out > cv_error_" + str(chrom) + ".txt",
 		shell = True
 		)
 	cv_grab.communicate()
 	
-	cv_error = subprocess.Popen(
-		"Rscript ../Dependencies/cv_error_plot.R",
-		shell=True
-		)
-	cv_error.communicate()
+	#cv_error = subprocess.Popen(
+	#	"Rscript ../Dependencies/cv_error_plot.R",
+	#	shell=True
+	#	)
+	#cv_error.communicate()
 	
-	admix_plot = subprocess.Popen(
-		"Rscript ../Dependencies/admix_plot.R", 
-		shell = True
-		)
-	admix_plot.communicate()
+	#admix_plot = subprocess.Popen(
+	#	"Rscript ../Dependencies/admix_plot.R", 
+	#	shell = True
+	#	)
+	#admix_plot.communicate()
 	
 	print("ADMIXTURE FINISHED", flush = True)
 
 #MAF removal
 def freq():
 	freq = subprocess.Popen(
-		"plink --bfile model --maf 0.05 --make-bed --out sims",
+		"plink --bfile model_" + str(chrom) + " --maf 0.05 --double-id --make-bed --out sims_" + str(chrom),
 		shell=True
 		)
 	freq.communicate()
@@ -802,12 +804,12 @@ def main(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chrom, dem_option, 
 	else:
 		pass
 		
-	for file in os.listdir("."):
-		if file.endswith(".pdf"):
-			print("Clear working directory before simulating new data", flush = True) 
-			exit()
-		else:
-			pass 
+	#for file in os.listdir("."):
+	#	if file.endswith(".pdf"):
+	#		print("Clear working directory before simulating new data", flush = True) 
+	#		exit()
+	#	else:
+	#		pass 
 
 	if sys.argv[8] == 'constant':
 		model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chrom, 
@@ -824,7 +826,7 @@ def main(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chrom, dem_option, 
 	fam_fix()
 	bim_fix()
 	new_vcf()
-	snp_id()
+	#snp_id()
 	pca_test()
 	prune()
 	make_beds()
