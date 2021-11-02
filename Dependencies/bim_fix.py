@@ -16,7 +16,7 @@ outfile = sys.argv[2]
 	)
 
 bim['snp'] = range(1, 1+len(bim))
-bim['pos'] = 0
+#bim['pos'] = 0
 
 bim.drop(
 	"i", 
