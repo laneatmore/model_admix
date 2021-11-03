@@ -29,12 +29,15 @@ Each demographic model accounts for one admixture event and two generations of o
 The script contains dataframes for each human chromosome, but these can easily be edited to be for a different species. Just
 change the pandas dataframes to whatever species' info you need. 
 
+The program uses a default infinite sites model to generate SNP mutations following updates to msprime (was not available in previous versions)
+
 Be sure to also check things like initial pop size and the timing of the population collapse parameter to make sure it works for your desired model.
 
 Dependencies: \
 pandas \
 pandas_plink \
-msprime
+msprime \
+pyplink
 
 *remember to download the dependencies folder -- msprime 0.x wasn't the greatest for VCFs that were compatible with downstream programs, so these scripts will help clean those up and run ADMIXTURE and do a quick PCA on your simulation*
 
