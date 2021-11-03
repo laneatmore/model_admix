@@ -239,7 +239,10 @@ def model_admix_constant(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	 			)
 	 			]
 	 			)
-	 	 		
+	
+	model = msprime.InfiniteSites(msprime.NUCLEOTIDES)
+	sim = msprime.mutate(sim, rate = 1.29e-8, model = model, random_seed = 145697)
+	
 	print("SIMULATION COMPLETE", flush = True)
 
 	#Make VCF of simulated data
@@ -436,7 +439,10 @@ def model_admix_expansion(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, ch
 	 			)
 	 			]
 	 			)
-	 	 		
+	
+	model = msprime.InfiniteSites(msprime.NUCLEOTIDES)
+	sim = msprime.mutate(sim, rate = 1.29e-8, model = model, random_seed = 145697)
+		
 	print("SIMULATION COMPLETE", flush = True)
 
 	#Make VCF of simulated data
@@ -642,6 +648,10 @@ def model_admix_collapse(pop1, pop2, pop3, time_admix, prop_pop1, prop_pop2, chr
 	 			)
 	 			]
 	 			)
+	 			
+	model = msprime.InfiniteSites(msprime.NUCLEOTIDES)
+	sim = msprime.mutate(sim, rate = 1.29e-8, model = model, random_seed = 145697)
+	
 	 	 		
 	print("SIMULATION COMPLETE", flush = True)
 
@@ -715,6 +725,7 @@ def new_vcf():
 
 #Finally ready for plink	
 #Perform pca and plot
+
 def pca_test():
 	pca = subprocess.Popen(
 		"plink --bfile model_" + str(chrom) + " --pca --out model_" + str(chrom) + "_pca", 
